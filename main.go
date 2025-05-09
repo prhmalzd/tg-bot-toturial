@@ -16,9 +16,9 @@ var userSessions = make(map[int64]*Session)
 
 
 func main() {
-    botToken := "7183442518:AAFH_ARiP8PEapp0v4L-UnVJl-vYKupEU2I"
-
+    botToken := os.Getenv("TELEGRAM_TOKEN")
     bot, err := tgbotapi.NewBotAPI(botToken)
+    
     if err != nil {
         log.Panic("Failed to connect to Telegram:", err)
     }

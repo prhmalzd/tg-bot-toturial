@@ -18,7 +18,7 @@ var userSessions = make(map[int64]*Session)
 func main() {
     botToken := os.Getenv("TELEGRAM_TOKEN")
     bot, err := tgbotapi.NewBotAPI(botToken)
-    
+
     if err != nil {
         log.Panic("Failed to connect to Telegram:", err)
     }
@@ -94,35 +94,4 @@ func main() {
         }
     }
     
-}
-
-
-
-for update := range updates {
-    // Handle Q&A flow
-    session, exists := userSessions[userID]
-    if exists {
-        switch session.Step {
-        case 1:
-            session.Answers = append(session.Answers, update.Message.Text)
-            session.Step++
-            bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "What's your favorite color?"))
-
-        case 2:
-            session.Answers = append(session.Answers, update.Message.Text)
-            session.Step++
-            bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "And lastly... what's your secret desire, pet?~ 😘"))
-
-        case 3:
-            session.Answers = append(session.Answers, update.Message.Text)
-
-            final := "Here's what you've confessed to Mistress~ 💕\n\n"
-            final += "🧸 Name: " + session.Answers[0] + "\n"
-            final += "🎨 Favorite Color: " + session.Answers[1] + "\n"
-            final += "🔒 Secret Desire: " + session.Answers[2]
-
-            bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, final))
-            delete(userSessions, userID)
-        }
-    }
 }

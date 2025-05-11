@@ -93,6 +93,36 @@ func main() {
                 delete(userSessions, userID)
             }
         }
+
+        if update.Message != nil && strings.ToLower(update.Message.Text) == "hi" {
+            msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Choose what you want, Hajime:")
+        
+            // Define buttons
+            keyboard := tgbotapi.NewReplyKeyboard(
+                tgbotapi.NewKeyboardButtonRow(
+                    tgbotapi.NewKeyboardButton("Sare khar"),
+                    tgbotapi.NewKeyboardButton("Zire Zebar"),
+                ),
+                tgbotapi.NewKeyboardButtonRow(
+                    tgbotapi.NewKeyboardButton("Hmmmmm..."),
+                ),
+            )
+        
+            // Attach keyboard
+            msg.ReplyMarkup = keyboard
+            bot.Send(msg)
+        }
+
+        if update.Message != nil {
+            switch update.Message.Text {
+            case "Sare khar":
+               bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "Here you are 🐂..."))
+            case "Zire Zebar":
+                bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "I guess you want this 🍑..."))
+            case "Hmmmmm...":
+                bot.Send(tgbotapi.NewMessage(update.Message.Chat.ID, "I know what you want 😉..."))
+            }
+        }
     }
     
 }
